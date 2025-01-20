@@ -83,6 +83,7 @@ const router = express.Router();
  *   post:
  *     summary: Register a user
  *     tags: [Auth]
+ *     security: []
  *     requestBody:
  *       required: true
  *       content:
@@ -116,6 +117,7 @@ const router = express.Router();
  *   post:
  *     summary: Log in a user
  *     tags: [Auth]
+ *     security: []
  *     requestBody:
  *       required: true
  *       content:

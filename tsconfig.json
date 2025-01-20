@@ -1,20 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "typeRoots": [
-      "./src/types",
-      "./node_modules/@types"
-    ],
+    "target": "ES6", // Target JavaScript version
+    "module": "commonjs", // Module system
+    "outDir": "./dist", // Output directory for compiled files
+    "rootDir": "./src", // Root directory of TypeScript files
+    "strict": true, // Enable strict type-checking
+    "esModuleInterop": true, // Allow ES6 module imports
+    "forceConsistentCasingInFileNames": true, // Enforce consistent casing in imports
+    "skipLibCheck": true // Skip type checking of declaration files
   },
   "include": [
     "src/**/*"
-  ],
+  ], // Include all TypeScript files in the src folder
   "exclude": [
-    "node_modules"
-  ]
+    "node_modules",
+    "src/tests/**/*"
+  ] // Exclude tests and node_modules from compilation
 }
