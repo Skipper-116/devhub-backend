@@ -15,6 +15,20 @@ const swaggerOptions: Options = {
                 url: `http://localhost:${process.env.PORT}`, // Replace with your server URL
             },
         ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                },
+            },
+        },
+        security: [
+            {
+                bearerAuth: [],
+            },
+        ],
     },
     apis: ['./src/routes/*.ts'], // Path to the route files
 };

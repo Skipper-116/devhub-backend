@@ -1,4 +1,5 @@
-import User, { IUser } from '../../models/User';
+import User from '../../models/User';
+import { IUser } from '../../types/dbInterface';
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 

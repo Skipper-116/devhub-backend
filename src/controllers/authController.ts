@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import { encodeToken } from "../utils/tokenUtils";
-import User, { IUser } from "../models/User";
+import User from "../models/User";
+import { IUser } from "../types/dbInterface";
 
 const register: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password, avatar, bio, skills, githubUsername, role } = req.body;
