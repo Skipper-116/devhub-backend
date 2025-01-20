@@ -105,6 +105,7 @@ src/
 ├── models/          # Mongoose models
 ├── routes/          # API routes
 ├── utils/           # Helper functions
+├── tests/           # All Tests
 ├── server.ts        # Entry point of the application
 ```
 
