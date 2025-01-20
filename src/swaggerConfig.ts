@@ -1,9 +1,7 @@
 import swaggerJsdoc, { Options } from 'swagger-jsdoc';
 import dotenv from 'dotenv';
-import os from 'os';
 
-const hostname = os.hostname();
-const url = process.env.NODE_ENV === 'development' ? `http://localhost:${process.env.PORT}` : hostname;
+const url = process.env.NODE_ENV === 'development' ? `http://localhost:${process.env.PORT}` : process.env.PRODUCTION_URL;
 
 dotenv.config();
 const swaggerOptions: Options = {
