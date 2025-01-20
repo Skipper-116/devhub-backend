@@ -27,7 +27,7 @@ The backend for **DevHub**, a collaborative developer platform where users can s
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v14 or later)
+- [Node.js](https://nodejs.org/) (v20.15.1 or later)
 - [MongoDB](https://www.mongodb.com/try/download/community) (local or Atlas)
 
 ### Steps
@@ -35,7 +35,7 @@ The backend for **DevHub**, a collaborative developer platform where users can s
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/devhub-backend.git
+   git clone https://github.com/Skipper-116/devhub-backend.git
    cd devhub-backend
    ```
 
@@ -45,18 +45,20 @@ The backend for **DevHub**, a collaborative developer platform where users can s
    npm install
    ```
 
+   ```bash
+   npm install -g nodemon
+   ```
+
 3. Set up environment variables:
    Create a `.env` file in the root directory and configure the following:
 
-   ```env
-   PORT=5000
-   MONGO_URI=your-mongodb-uri
-   JWT_SECRET=your-secret-key
+   ```sh
+   cp .env.example .env
    ```
 
 4. Start the development server:
    ```bash
-   npm run dev
+   nodemon
    ```
 
 ---
