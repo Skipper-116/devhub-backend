@@ -19,5 +19,7 @@ app.use('/api/v1/auth', authRoutes);
 
 // Init Middleware
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+// Define PORT
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

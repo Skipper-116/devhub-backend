@@ -48,6 +48,10 @@ const login: RequestHandler = async (req: Request, res: Response, next: NextFunc
             return next();
         }
         const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            res.status(400).json({ message: "Invalid credentials" });
+            return next();
+        }
         res.status(200).json({ token: encodeToken({ id: user._id }), user: { name: user.name, email: user.email, avatar: user.avatar, bio: user.bio, skills: user.skills, githubUsername: user.githubUsername, role: user.role } });
         return next();
     }
