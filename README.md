@@ -19,6 +19,7 @@ The backend for **DevHub**, a collaborative developer platform where users can s
 - **TypeScript**: For type safety and better developer experience.
 - **MongoDB**: NoSQL database.
 - **Mongoose**: ODM for MongoDB.
+- **Swagger UI**: API documentation.
 - **Jest**: For testing the backend logic.
 
 ---
