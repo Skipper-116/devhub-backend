@@ -1,0 +1,81 @@
+## Users
+
+- id (ObjectId, PK)
+- name (String)
+- email (String, unique)
+- password (String)
+- avatar (String)
+- bio (String)
+- skills (Array of Strings)
+- githubUsername (String)
+- role (String: "user" | "admin")
+- createdAt (Date)
+- updatedAt (Date)
+
+## Projects
+
+- id (ObjectId, PK)
+- userId (ObjectId, FK -> Users.id)
+- title (String)
+- description (String)
+- techStack (Array of Strings)
+- githubLink (String)
+- demoLink (String)
+- screenshots (Array of Strings)
+- category (String: e.g., "Web Dev", "AI")
+- likes (Array of ObjectIds -> Users.id)
+- comments (Array of Embedded Documents)
+- createdAt (Date)
+- updatedAt (Date)
+
+## Comments (Embedded in Projects or ForumPosts)
+
+- id (ObjectId, PK)
+- userId (ObjectId, FK -> Users.id)
+- content (String)
+- createdAt (Date)
+
+## ForumPosts
+
+- id (ObjectId, PK)
+- userId (ObjectId, FK -> Users.id)
+- title (String)
+- content (String)
+- category (String: e.g., "General", "Coding")
+- upvotes (Array of ObjectIds -> Users.id)
+- comments (Array of Embedded Documents)
+- createdAt (Date)
+- updatedAt (Date)
+
+## Challenges
+
+- id (ObjectId, PK)
+- adminId (ObjectId, FK -> Users.id)
+- title (String)
+- description (String)
+- submissions (Array of Embedded Documents)
+- createdAt (Date)
+- updatedAt (Date)
+
+## Submissions (Embedded in Challenges)
+
+- id (ObjectId, PK)
+- userId (ObjectId, FK -> Users.id)
+- solutionLink (String)
+- comments (String)
+- votes (Array of ObjectIds -> Users.id)
+- createdAt (Date)
+
+## Chats
+
+- id (ObjectId, PK)
+- participants (Array of ObjectIds -> Users.id)
+- messages (Array of Embedded Documents)
+- createdAt (Date)
+
+## Messages (Embedded in Chats)
+
+- id (ObjectId, PK)
+- senderId (ObjectId, FK -> Users.id)
+- content (String)
+- timestamp (Date)
