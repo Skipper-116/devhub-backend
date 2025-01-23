@@ -12,8 +12,8 @@ yarn-error.log*
 .env
 
 # Production
-build
-dist/**/*
+build/
+dist/
 
 # Dependency directories
 jspm_packages/
