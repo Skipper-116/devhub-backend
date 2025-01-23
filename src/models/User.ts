@@ -1,6 +1,7 @@
-import mongoose, { Schema, Model } from 'mongoose';
+import mongoose, { Schema, Model, Query } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { IUser } from '../types/dbInterface';
+import { IResponse } from '../types/common';
 
 // Create User schema
 const UserSchema: Schema<IUser> = new Schema(
@@ -37,12 +38,39 @@ const UserSchema: Schema<IUser> = new Schema(
         },
         githubUsername: {
             type: String,
+            sparse: true,
             default: null,
+            validate: {
+                validator: async function (v: string) {
+                    if (!v) return true; // allow null values
+                    const count = await mongoose.models.User.countDocuments({ githubUsername: v });
+                    if (count > 0) return false;
+                    return /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(v);
+                },
+                message: (props: any) => `${props.value} is not a valid GitHub username`,
+            },
         },
         role: {
             type: String,
             enum: ['user', 'admin'],
             default: 'user',
+        },
+        voided: {
+            type: Boolean,
+            default: false,
+        },
+        voidedReason: {
+            type: String,
+            default: null,
+        },
+        voidedAt: {
+            type: Date,
+            default: null,
+        },
+        voidedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            default: null,
         },
     },
     {
@@ -76,6 +104,27 @@ UserSchema.methods.validatePassword = function (password: string): boolean {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/;
     return passwordRegex.test(password);
 }
+
+UserSchema.methods.void = async function (reason: string, voidedBy: string): Promise<IResponse> {
+    try {
+        this.voided = true;
+        this.voidedReason = reason;
+        this.voidedAt = new Date();
+        this.voidedBy = voidedBy;
+        await this.save();
+        return { message: 'User removed successfully' } as IResponse;
+    } catch (error) {
+        console.error(error);
+        throw new Error('An error occurred while voiding user');
+    }
+}
+
+// Pre middleware to filter out voided users
+UserSchema.pre(/^(find|findOne|findById)/, function (next) {
+    const query = this as Query<IUser[], IUser, {}>;
+    query.where({ voided: false });
+    next();
+});
 
 // Create the User model
 const User: Model<IUser> = mongoose.model<IUser>('User', UserSchema);

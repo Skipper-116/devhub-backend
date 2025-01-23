@@ -2,6 +2,8 @@ import User from '../../models/User';
 import { IUser } from '../../types/dbInterface';
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { IResponse } from '../../types/common';
+import exp from 'constants';
 
 let mongoServer: MongoMemoryServer;
 
@@ -64,6 +66,19 @@ describe('User Model', () => {
 
         const isMatch = await user.comparePassword('wrongpassword');
         expect(isMatch).toBe(false);
+    });
+
+    it('should void a user', async () => {
+        const user: IUser = await User.create({
+            name: 'Garry Doe',
+            email: 'garry@exampl.com',
+            password: '#Password123',
+        });
+
+        const result = await user.void('User is no longer active', user._id);
+        expect(result.message).toBe('User removed successfully');
+        const resultTwo = await User.findById(user._id).exec();
+        expect(resultTwo).toBeNull();
     });
 
     it('should find three saved users', async () => {

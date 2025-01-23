@@ -9,6 +9,10 @@
 - skills (Array of Strings)
 - githubUsername (String)
 - role (String: "user" | "admin")
+- voided (Boolean)
+- voidedReason (String)
+- voidedAt (Date)
+- voidedBy (ObjectId, FK -> Users.id)
 - createdAt (Date)
 - updatedAt (Date)
 
@@ -25,6 +29,10 @@
 - category (String: e.g., "Web Dev", "AI")
 - likes (Array of ObjectIds -> Users.id)
 - comments (Array of Embedded Documents)
+- voided (Boolean)
+- voidedReason (String)
+- voidedAt (Date)
+- voidedBy (ObjectId, FK -> Users.id)
 - createdAt (Date)
 - updatedAt (Date)
 
@@ -33,7 +41,12 @@
 - id (ObjectId, PK)
 - userId (ObjectId, FK -> Users.id)
 - content (String)
+- voided (Boolean)
+- voidedReason (String)
+- voidedAt (Date)
+- voidedBy (ObjectId, FK -> Users.id)
 - createdAt (Date)
+- updatedAt (Date)
 
 ## ForumPosts
 
@@ -44,6 +57,10 @@
 - category (String: e.g., "General", "Coding")
 - upvotes (Array of ObjectIds -> Users.id)
 - comments (Array of Embedded Documents)
+- voided (Boolean)
+- voidedReason (String)
+- voidedAt (Date)
+- voidedBy (ObjectId, FK -> Users.id)
 - createdAt (Date)
 - updatedAt (Date)
 
@@ -54,6 +71,10 @@
 - title (String)
 - description (String)
 - submissions (Array of Embedded Documents)
+- voided (Boolean)
+- voidedReason (String)
+- voidedAt (Date)
+- voidedBy (ObjectId, FK -> Users.id)
 - createdAt (Date)
 - updatedAt (Date)
 
@@ -64,18 +85,33 @@
 - solutionLink (String)
 - comments (String)
 - votes (Array of ObjectIds -> Users.id)
+- voided (Boolean)
+- voidedReason (String)
+- voidedAt (Date)
+- voidedBy (ObjectId, FK -> Users.id)
 - createdAt (Date)
+- updatedAt (Date)
 
 ## Chats
 
 - id (ObjectId, PK)
 - participants (Array of ObjectIds -> Users.id)
 - messages (Array of Embedded Documents)
+- voided (Boolean)
+- voidedReason (String)
+- voidedAt (Date)
+- voidedBy (ObjectId, FK -> Users.id)
 - createdAt (Date)
+- updatedAt (Date)
 
 ## Messages (Embedded in Chats)
 
 - id (ObjectId, PK)
 - senderId (ObjectId, FK -> Users.id)
 - content (String)
-- timestamp (Date)
+- voided (Boolean)
+- voidedReason (String)
+- voidedAt (Date)
+- voidedBy (ObjectId, FK -> Users.id)
+- createdAt (Date)
+- updatedAt (Date)
