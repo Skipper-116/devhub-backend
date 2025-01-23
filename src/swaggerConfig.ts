@@ -1,9 +1,8 @@
 import swaggerJsdoc, { Options } from 'swagger-jsdoc';
 import dotenv from 'dotenv';
 
-const url = process.env.NODE_ENV === 'development' ? `http://localhost:${process.env.PORT}` : process.env.PRODUCTION_URL;
-
 dotenv.config();
+const url = process.env.NODE_ENV === 'development' ? `http://localhost:${process.env.PORT}` : process.env.PRODUCTION_URL;
 const swaggerOptions: Options = {
     definition: {
         openapi: '3.0.0',

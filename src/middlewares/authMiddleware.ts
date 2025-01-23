@@ -5,11 +5,12 @@ import { JwtPayload } from '../types/jwtPayload';
 import jwt from 'jsonwebtoken';
 
 // Middleware function
-const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ message: 'Unauthorized: No token provided' });
+        const response = res.status(401).json({ message: 'Unauthorized: No token provided' });
+        return next(response);
     }
 
     const token = authHeader.split(' ')[1];
@@ -25,7 +26,8 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
         next();
     } catch (error) {
-        res.status(403).json({ message: 'Forbidden: Invalid token' });
+        const response = res.status(403).json({ message: 'Forbidden: Invalid token' });
+        return next(response);
     }
 };
 
