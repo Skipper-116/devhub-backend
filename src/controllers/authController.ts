@@ -7,7 +7,7 @@ const register: RequestHandler = async (req: Request, res: Response, next: NextF
     const { name, email, password, avatar, bio, skills, githubUsername, role } = req.body;
 
     try {
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ email }).exec();
         if (existingUser) {
             res.status(400).json({ message: "User already exists." });
             return next();
@@ -33,6 +33,7 @@ const register: RequestHandler = async (req: Request, res: Response, next: NextF
         return next();
     }
     catch (error) {
+        console.error(error);
         res.status(500).json({ message: "Server error" });
         return next();
     }
