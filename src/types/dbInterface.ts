@@ -44,9 +44,8 @@ export interface IProject extends Document {
     demoLink?: string;
     screenshots?: string[];
     category: string;
-    likes: string[];
-    tags: string[];
-    comments: Comment[];
+    likes?: string[];
+    comments?: Comment[];
     createdBy: string;
     voided: boolean;
     voidedReason?: string;
