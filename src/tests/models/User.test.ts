@@ -9,12 +9,13 @@ beforeAll(async () => {
     mongoServer = await MongoMemoryServer.create();
     const uri = mongoServer.getUri();
     await mongoose.connect(uri);
+    await User.deleteMany();
 });
 
 afterAll(async () => {
+    await User.deleteMany();
     await mongoose.disconnect();
     await mongoServer.stop();
-    await User.deleteMany();
 });
 
 describe('User Model', () => {

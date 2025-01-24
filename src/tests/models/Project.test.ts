@@ -21,10 +21,10 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-    await mongoose.disconnect();
-    await mongoServer.stop();
     await User.deleteMany();
     await Project.deleteMany();
+    await mongoose.disconnect();
+    await mongoServer.stop();
 });
 
 describe('Project Model', () => {
