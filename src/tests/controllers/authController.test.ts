@@ -17,15 +17,12 @@ beforeAll(async () => {
     mongoServer = await MongoMemoryServer.create();
     const uri = mongoServer.getUri();
     await mongoose.connect(uri);
+    await User.deleteMany();
 });
 
 afterAll(async () => {
     await mongoose.disconnect();
     await mongoServer.stop();
-});
-
-afterEach(async () => {
-    await User.deleteMany(); // Clear the database after each test
 });
 
 describe('Auth Controller', () => {
@@ -46,8 +43,6 @@ describe('Auth Controller', () => {
         });
 
         it('should not register a user with an existing email', async () => {
-            await User.create({ name: 'John Doe', email: 'john@example.com', password: 'Password123!' });
-
             const res = await request(app)
                 .post('/api/v1/auth/register')
                 .send({
@@ -57,7 +52,7 @@ describe('Auth Controller', () => {
                 });
 
             expect(res.status).toBe(400);
-            expect(res.body).toHaveProperty('message', 'User already exists.');
+            expect(res.body).toHaveProperty('message', "User already exists.");
         });
 
         it('should return 400 for invalid data', async () => {
@@ -67,8 +62,8 @@ describe('Auth Controller', () => {
                 password: '123',
             });
 
-            expect(res.status).toBe(500);
-            expect(res.body).toHaveProperty('message', 'Server error');
+            expect(res.status).toBe(400);
+            expect(res.body).toHaveProperty('message');
         });
     });
 
@@ -93,12 +88,6 @@ describe('Auth Controller', () => {
         });
 
         it('should not log in with incorrect credentials', async () => {
-            await User.create({
-                name: 'Jane Doe',
-                email: 'jane@example.com',
-                password: 'Password123!',
-            });
-
             const res = await request(app)
                 .post('/api/v1/auth/login')
                 .send({

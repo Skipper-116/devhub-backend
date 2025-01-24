@@ -1,24 +1,18 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
+import { MongoServerError } from "mongodb";
 import { encodeToken } from "../utils/tokenUtils";
 import User from "../models/User";
 import { IUser } from "../types/dbInterface";
 
 const register: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
-    const { name, email, password, avatar, bio, skills, githubUsername, role } = req.body;
-
     try {
-        const existingUser = await User.findOne({ email }).exec();
-        if (existingUser) {
-            res.status(400).json({ message: "User already exists." });
-            return next();
-        }
-
+        const { name, email, password, avatar, bio, skills, githubUsername, role } = req.body;
         const allSkills = skills?.split(",").map((skill: string) => skill.trim());
         const user: IUser = new User({ name, email, password, avatar, bio, skills: allSkills, githubUsername, role });
         await user.save();
 
         const token = encodeToken({ id: user._id });
-        res.status(201).json({
+        const response = res.status(201).json({
             token,
             user: {
                 name: user.name,
@@ -30,36 +24,43 @@ const register: RequestHandler = async (req: Request, res: Response, next: NextF
                 role: user.role,
             },
         });
-        return next();
+        return next(response);
     }
-    catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Server error" });
-        return next();
+    // we need to catch MongoServerError here
+    catch (error: any) {
+        if (error instanceof MongoServerError) {
+            const response = res.status(400).json({ message: "User already exists." });
+            return next(response);
+        }
+        if (error._message === 'User validation failed') {
+            const response = res.status(400).json({ message: error.message });
+            return next(response);
+        }
+        const response = res.status(500).json({ message: "Server error" });
+        return next(response);
     }
 };
 
 const login: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password } = req.body;
-
     try {
+        const { email, password } = req.body;
         const user = await User.findOne({ email });
         if (!user) {
-            res.status(400).json({ message: "Invalid credentials" });
-            return next();
+            const response = res.status(400).json({ message: "Invalid credentials" });
+            return next(response);
         }
         const isMatch = await user.comparePassword(password);
         if (!isMatch) {
-            res.status(400).json({ message: "Invalid credentials" });
-            return next();
+            const response = res.status(400).json({ message: "Invalid credentials" });
+            return next(response);
         }
-        res.status(200).json({ token: encodeToken({ id: user._id }), user: { name: user.name, email: user.email, avatar: user.avatar, bio: user.bio, skills: user.skills, githubUsername: user.githubUsername, role: user.role } });
-        return next();
+        const response = res.status(200).json({ token: encodeToken({ id: user._id }), user: { name: user.name, email: user.email, avatar: user.avatar, bio: user.bio, skills: user.skills, githubUsername: user.githubUsername, role: user.role } });
+        return next(response);
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server error" });
-        return next();
+        const response = res.status(500).json({ message: "Server error" });
+        return next(response);
     }
 }
 

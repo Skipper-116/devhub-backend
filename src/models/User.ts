@@ -8,8 +8,14 @@ const UserSchema: Schema<IUser> = new Schema(
     {
         name: {
             type: String,
-            required: [true, 'Name is required'],
             trim: true,
+            validate: {
+                validator: async function (v: string) {
+                    if (!v) return false; // do not allow null values
+                    return /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(v);
+                },
+                message: (props: any) => `${props.value} is not a valid name`,
+            }
         },
         email: {
             type: String,
@@ -120,7 +126,7 @@ UserSchema.methods.void = async function (reason: string, voidedBy: string): Pro
 }
 
 // Pre middleware to filter out voided users
-UserSchema.pre(/^(find|findOne|findById)/, function (next) {
+UserSchema.pre(/^find|findById|findOne|findOneAndUpdate|update/, function (next) {
     const query = this as Query<IUser[], IUser, {}>;
     query.where({ voided: false });
     next();

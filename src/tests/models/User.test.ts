@@ -2,8 +2,6 @@ import User from '../../models/User';
 import { IUser } from '../../types/dbInterface';
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import { IResponse } from '../../types/common';
-import exp from 'constants';
 
 let mongoServer: MongoMemoryServer;
 
@@ -16,6 +14,7 @@ beforeAll(async () => {
 afterAll(async () => {
     await mongoose.disconnect();
     await mongoServer.stop();
+    await User.deleteMany();
 });
 
 describe('User Model', () => {

@@ -1,5 +1,6 @@
 import { Document } from 'mongoose';
 import { IResponse } from './common';
+import { ObjectId } from 'mongoose';
 
 export interface IUser extends Document {
     _id: string;
@@ -14,7 +15,7 @@ export interface IUser extends Document {
     voided: boolean;
     voidedReason?: string;
     voidedAt?: Date;
-    voidedBy?: string;
+    voidedBy: ObjectId;
     createdAt: Date;
     updatedAt: Date;
     comparePassword: (password: string) => Promise<boolean>;
@@ -25,11 +26,11 @@ export interface IUser extends Document {
 export interface IComment extends Document {
     _id: string;
     content: string;
-    createdBy: string;
+    createdBy: ObjectId;
     voided: boolean;
     voidedReason?: string;
     voidedAt?: Date;
-    voidedBy?: string;
+    voidedBy: ObjectId;
     createdAt: Date;
     updatedAt: Date;
     void: (reason: string, voidedBy: string) => IResponse;
@@ -46,11 +47,11 @@ export interface IProject extends Document {
     category: string;
     likes?: string[];
     comments?: Comment[];
-    createdBy: string;
+    createdBy: ObjectId;
     voided: boolean;
     voidedReason?: string;
     voidedAt?: Date;
-    voidedBy?: string;
+    voidedBy: ObjectId;
     createdAt: Date;
     updatedAt: Date;
     void: (reason: string, voidedBy: string) => IResponse;
@@ -63,11 +64,11 @@ export interface IForum extends Document {
     category: string;
     upvotes: string[];
     comments: Comment[];
-    createdBy: string;
+    createdBy: ObjectId;
     voided: boolean;
     voidedReason?: string;
     voidedAt?: Date;
-    voidedBy?: string;
+    voidedBy: ObjectId;
     createdAt: Date;
     updatedAt: Date;
     void: (reason: string, voidedBy: string) => IResponse;
@@ -78,11 +79,11 @@ export interface Challenges extends Document {
     title: string;
     description: string;
     submissions: Submission[];
-    createdBy: string;
+    createdBy: ObjectId;
     voided: boolean;
     voidedReason?: string;
     voidedAt?: Date;
-    voidedBy?: string;
+    voidedBy: ObjectId;
     createdAt: Date;
     updatedAt: Date;
     void: (reason: string, voidedBy: string) => IResponse;
@@ -92,12 +93,12 @@ export interface Submission extends Document {
     _id: string;
     solutionLink: string;
     comments: Comment[];
-    createdBy: string;
+    createdBy: ObjectId;
     votes: string[];
     voided: boolean;
     voidedReason?: string;
     voidedAt?: Date;
-    voidedBy?: string;
+    voidedBy: ObjectId;
     createdAt: Date;
     updatedAt: Date;
     void: (reason: string, voidedBy: string) => IResponse;
@@ -107,10 +108,10 @@ export interface Message extends Document {
     _id: string;
     content: string;
     voided: boolean;
-    createdBy: string;
+    createdBy: ObjectId;
     voidedReason?: string;
     voidedAt?: Date;
-    voidedBy?: string;
+    voidedBy: ObjectId;
     createdAt: Date;
     updatedAt: Date;
     void: (reason: string, voidedBy: string) => IResponse;
@@ -120,11 +121,11 @@ export interface Chats extends Document {
     _id: string;
     participants: string[];
     messages: Message[];
-    createdBy: string;
+    createdBy: ObjectId;
     voided: boolean;
     voidedReason?: string;
     voidedAt?: Date;
-    voidedBy?: string;
+    voidedBy: ObjectId;
     createdAt: Date;
     updatedAt: Date;
     void: (reason: string, voidedBy: string) => IResponse;
