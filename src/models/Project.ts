@@ -36,7 +36,10 @@ const ProjectSchema: Schema<IProject> = new Schema(
                 // we need to prevent people posting the same link
                 validator: async function (v: string) {
                     if (!v) return true; // allow null values
-                    const count = await mongoose.models.Project.countDocuments({ demoLink: v });
+                    const count = await mongoose.models.Project.countDocuments({
+                        demoLink: v,
+                        _id: { $ne: this._id } // exclude the current document
+                    });
                     if (count > 0) return false;
                     return /^(https?:\/\/)?(www\.)?[a-z0-9-]+(\.[a-z0-9-]+)+([/?].*)?$/i.test(v);
                 },
