@@ -235,7 +235,7 @@ router.get("/:id/comment", getComments);
  *           schema:
  *             type: object
  *             properties:
- *               comment:
+ *               content:
  *                 type: string
  *     responses:
  *       201:
