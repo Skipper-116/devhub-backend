@@ -48,8 +48,9 @@ const router = express.Router();
  *         bio:
  *           type: string
  *         skills:
- *           type: string
- *           description: Comma-separated list of skills
+ *           type: array
+ *           items:
+ *             type: string
  *         githubUsername:
  *           type: string
  *     LoginRequest:

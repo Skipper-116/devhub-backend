@@ -65,7 +65,7 @@ const updateProfile: RequestHandler = async (req: Request, res: Response, next: 
         user.email = req.body.email || user.email;
         user.avatar = req.body.avatar || user.avatar;
         user.bio = req.body.bio || user.bio;
-        user.skills = req.body.skills?.split(',').map((skill: string) => skill.trim()) || user.skills;
+        user.skills = req.body.skills || user.skills;
         user.githubUsername = req.body.githubUsername || user.githubUsername;
 
         await user.save();

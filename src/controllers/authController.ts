@@ -7,8 +7,7 @@ import { IUser } from "../types/dbInterface";
 const register: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { name, email, password, avatar, bio, skills, githubUsername, role } = req.body;
-        const allSkills = skills?.split(",").map((skill: string) => skill.trim());
-        const user: IUser = new User({ name, email, password, avatar, bio, skills: allSkills, githubUsername, role });
+        const user: IUser = new User({ name, email, password, avatar, bio, skills, githubUsername, role });
         await user.save();
 
         const token = encodeToken({ id: user._id });

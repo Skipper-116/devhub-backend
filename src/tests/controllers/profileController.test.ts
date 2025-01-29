@@ -51,7 +51,7 @@ describe('Profile Controller', () => {
                 .send({
                     name: 'Jane Smith',
                     email: 'janedoe@example.com',
-                    skills: 'Node.js, Express.js, MongoDB',
+                    skills: ['Node.js', 'Express.js', 'MongoDB']
                 });
 
             expect(res.status).toBe(200);
